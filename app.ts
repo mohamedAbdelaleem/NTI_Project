@@ -1,24 +1,22 @@
 import express from 'express';
 import dotenv from "dotenv";
-import mongoose from 'mongoose';
+import categoryRouter  from './routes/categoryRoutes';
+import subCategoryRouter from './routes/subCategoryRoutes';
+import databaseSetup from './config/database';
+import mountRoutes from './routes';
+import errorHandler from './middlewares/errorHandler';
+
 
 dotenv.config();
+databaseSetup();
+
 const app: express.Application = express()
 app.use(express.json())
 
+mountRoutes(app);
 
-mongoose.connect(process.env.DB_CONNECTION!).then(() => {
-    console.log(`Database connected to : ${process.env.DB_CONNECTION}`);
-}).catch((err: Error) => {
-    console.log(err);
+app.use(errorHandler);
+
+app.listen(process.env.PORT, () => {
+    console.log("server is running")
 });
-
-app.get('/', function (req: express.Request, res: express.Response) {
-    res.json({ message: "Hello App" })
-});
-
-app.get('/test', function (req: express.Request, res: express.Response) {
-    res.json({ message: "Test" })
-});
-
-app.listen(process.env.PORT);
