@@ -2,7 +2,7 @@ import { Router } from "express";
 import { createSubCategory, deleteSubCategory, getSubCategory, listSubCategories, updateSubCategory } from "../controllers/subCategoryController";
 import { createSubcategoryValidator, deleteSubcategoryValidator, getSubcategoryValidator, updateSubcategoryValidator } from "../utils/validators/subCategoryValidators";
 
-const subCategoryRouter: Router = Router();
+const subCategoryRouter: Router = Router({ mergeParams: true });
 
 subCategoryRouter.route("")
 .post(createSubcategoryValidator, createSubCategory)

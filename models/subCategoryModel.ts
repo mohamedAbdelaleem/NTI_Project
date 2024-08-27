@@ -13,6 +13,7 @@ const subCategorySchema: Schema = new Schema<SubCategory>(
         categoryId: {
             type: Schema.Types.ObjectId,
             required: true,
+            ref: "Category"
         }
         
     },
@@ -21,5 +22,9 @@ const subCategorySchema: Schema = new Schema<SubCategory>(
     }
 );
 
+subCategorySchema.pre<SubCategory>(/^find/, function(next){
+    this.populate({path: "categoryId", select: "name"});
+    next();
+})
 
 export default model<SubCategory>("SubCategory", subCategorySchema);
