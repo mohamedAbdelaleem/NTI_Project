@@ -1,28 +1,48 @@
 import { createOne, deleteOne, getAll, getOne, updateOne } from "./genericHandler";
-import {  Request } from "express";
-import multer from "multer";
+import {  Request, Response, NextFunction } from "express";
+import sharp from "sharp";
+import {v4 as uuid4} from "uuid";
 import { Products } from "../interfaces/product";
 import productsModel from "../models/productModels";
-import APIError from "../utils/apiError";
+import asyncHandler from "express-async-handler";
+import { uploadMultipleFiles } from "../middlewares/uploadImages";
 
-const multerStorage = multer.diskStorage({
-  destination: function (req: Request, file: any, cb: any) {
-    cb(null, 'uploads')
-    console.log(file);
-  },
-  filename: function (req: Request, file: any, cb: any) {
-    const ext = file.mimetype.split('/')[1];
-    const fileName = `Product-${Date.now()}-cover.jpg`;
-    cb(null, fileName)
+
+export const uploadProductImages = uploadMultipleFiles([
+  { name: 'cover', maxCount: 1 },
+  { name: 'images', maxCount: 5 }
+])
+
+export const resizeAndSave = asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    
+  if(req.files){
+    if('cover' in req.files){
+      const buffer = req.files["cover"][0].buffer;
+      const filePath = `product${uuid4()}.jpeg`;
+      sharp(buffer)
+      .toFormat("jpeg")
+      .jpeg({quality:95})
+      .toFile(`uploads/products/${filePath}`);
+      req.body.cover = filePath;
+    }
+    if('images' in req.files){
+      const images: string[] = [];
+      req.files['images'].forEach(image => {
+          const buffer = image.buffer;
+          const filePath = `product-${uuid4()}.jpeg`;
+          sharp(buffer)
+          .toFormat("jpeg")
+          .jpeg({quality:95})
+          .toFile(`uploads/products/${filePath}`);
+          images.push(filePath);
+      });
+      req.body.images = images;
+    }
+
   }
+  next();
 })
-
-const multerFilter = function (req: Request, file:any, cb: any) {
-  if (file.mimetype.startsWith('image')) { cb(null, true) }
-  else { cb(new APIError('File Not an image', 400), false) }
-}
-export const upload = multer({ storage: multerStorage, fileFilter: multerFilter })
-
+  
 
 export const createProduct = createOne<Products>(productsModel)
 export const getProducts = getAll<Products>(productsModel, 'products')

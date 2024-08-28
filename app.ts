@@ -1,7 +1,5 @@
 import express from 'express';
 import dotenv from "dotenv";
-import categoryRouter  from './routes/categoryRoutes';
-import subCategoryRouter from './routes/subCategoryRoutes';
 import databaseSetup from './config/database';
 import mountRoutes from './routes';
 import errorHandler from './middlewares/errorHandler';
@@ -12,6 +10,8 @@ databaseSetup();
 
 const app: express.Application = express()
 app.use(express.json())
+
+app.use(express.static('uploads'))
 
 mountRoutes(app);
 
