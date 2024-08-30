@@ -46,6 +46,6 @@ export const resizeAndSave = asyncHandler(async (req: Request, res: Response, ne
 
 export const createProduct = createOne<Products>(productsModel)
 export const getProducts = getAll<Products>(productsModel, 'products')
-export const getProduct = getOne<Products>(productsModel)
+export const getProduct = getOne<Products>(productsModel, 'reviews')
 export const updateProduct = updateOne<Products>(productsModel)
 export const deleteProduct = deleteOne<Products>(productsModel)

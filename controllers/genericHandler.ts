@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import asyncHandler from 'express-async-handler';
 import APIError from '../utils/apiError';
 // import { FilterData } from '../interfaces/filterData';
@@ -18,8 +18,10 @@ export const getAll = <modelType>(model: mongoose.Model<any>, modelName: string)
   res.status(200).send({length: documents.length, data: documents, pagination: paginationResult});
 })
 
-export const getOne = <modelType>(model: mongoose.Model<any>) => asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const document = await model.findById(req.params.id);
+export const getOne = <modelType>(model: mongoose.Model<any>, population?: string) => asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  let query = model.findById(req.params.id);
+  if (population) { query = query.populate(population) };
+  const document = await query;
   if (!document) {
     throw new APIError("Not Found", 404);
   }
@@ -36,13 +38,20 @@ export const updateOne = <modelType>(model: mongoose.Model<any>) => asyncHandler
   if (!document) {
     throw new APIError("Not Found", 404);
   }
+  document.save();
   res.status(200).json({ data: document });
 })
 
-export const deleteOne = <modelType>(model: mongoose.Model<any>) => asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const deleteOne = <modelType>(
+    model: mongoose.Model<any>,
+    postDeleteHandler?: (doc: any) => Promise<void>
+  ) => asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const document = await model.findByIdAndDelete(req.params.id);
   if (!document) {
     throw new APIError("Not Found", 404);
+  }
+  if(postDeleteHandler){
+    postDeleteHandler(document);
   }
   res.status(204).json({ data: document });
 })

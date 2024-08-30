@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { createSubCategory, deleteSubCategory, getSubCategory, listSubCategories, updateSubCategory } from "../controllers/subCategoryController";
+import { createSubCategory, deleteSubCategory, getSubCategory, listSubCategories, setCategoryId, updateSubCategory } from "../controllers/subCategoryController";
 import { createSubcategoryValidator, deleteSubcategoryValidator, getSubcategoryValidator, updateSubcategoryValidator } from "../utils/validators/subCategoryValidators";
 
 const subCategoryRouter: Router = Router({ mergeParams: true });
 
 subCategoryRouter.route("")
-.post(createSubcategoryValidator, createSubCategory)
+.post(setCategoryId, createSubcategoryValidator, createSubCategory)
 .get(listSubCategories)
 
 subCategoryRouter.route("/:id")

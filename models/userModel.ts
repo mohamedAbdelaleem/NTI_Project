@@ -5,14 +5,15 @@ import bcrypt from 'bcrypt';
 const usersSchema: Schema = new Schema<User>({
   name: { type: String, required: true, trim: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true, minlength: 6, maxlength: 20 },
+  password: { type: String, required: true, minlength: 6, maxlength: 60 },
   image: String,
   role: { type: String, required: true, enum: ['manager', 'admin', 'user'], default: 'user' },
   active: { type: Boolean, default: true },
   passwordChangedAt: Date,
   resetCode: String,
   resetCodeExpireTime: Date,
-  resetCodeVerify: Boolean
+  resetCodeVerify: Boolean,
+  wishlist: [{ type: Schema.Types.ObjectId, ref: 'products' }]
 }, { timestamps: true });
 
 // const imageUrl = (document: User) => {

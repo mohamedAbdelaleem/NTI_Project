@@ -5,12 +5,16 @@ import productsRouter from "./productRoutes";
 import APIError from "../utils/apiError";
 import usersRouter from "./usersRoutes";
 import authRouter from "./authRoutes";
+import reviewRouter from "./reviewRoutes";
+import wishlistRouter from "./wishListRoutes";
 
 
 const mountRoutes = function (app: Application){
     app.use("/api/v1/categories", categoryRouter);
     app.use("/api/v1/subcategories", subCategoryRouter);
     app.use('/api/v1/products', productsRouter);
+    app.use('/api/v1/reviews', reviewRouter);
+    app.use('/api/v1/wishlist', wishlistRouter);
     app.use('/api/v1/users', usersRouter);
     app.use('/api/v1/auth', authRouter);
     app.all('*', (req: Request, res: Response, next: NextFunction) => {

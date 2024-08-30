@@ -40,6 +40,13 @@ export const resizeUserImage = asyncHandler(async (req, res, next) => {
   next();
 });
 
+export const updateLoggedUser = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  const user = await userModel.findByIdAndUpdate(req.user?._id, {
+    name: req.body.name,
+    image: req.body.image,
+  }, { new: true })
+  res.status(200).json({ data: user, message: 'user updated successfully' })
+})
 
 export const changeUserPassword = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const user = await userModel.findByIdAndUpdate(req.params.id, {
