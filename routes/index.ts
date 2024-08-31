@@ -7,6 +7,8 @@ import usersRouter from "./usersRoutes";
 import authRouter from "./authRoutes";
 import reviewRouter from "./reviewRoutes";
 import wishlistRouter from "./wishListRoutes";
+import couponRouter from "./couponRoutes";
+import cartsRouter from "./cartRoutes";
 
 
 const mountRoutes = function (app: Application){
@@ -17,6 +19,8 @@ const mountRoutes = function (app: Application){
     app.use('/api/v1/wishlist', wishlistRouter);
     app.use('/api/v1/users', usersRouter);
     app.use('/api/v1/auth', authRouter);
+    app.use('/api/v1/coupons', couponRouter);
+    app.use('/api/v1/carts', cartsRouter);
     app.all('*', (req: Request, res: Response, next: NextFunction) => {
         throw new APIError(`The router ${req.originalUrl} is not found`, 400);
     })
