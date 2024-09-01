@@ -22,7 +22,6 @@ export const addProductToCart = asyncHandler(async (req: Request, res: Response,
     return next(new APIErrors('Product Not found', 404))
   }
   let cart = await cartModel.findOne({ user: req.user?._id });
-  console.log("arrived here");
   if (!cart) {
     cart = await cartModel.create({
       user: req.user?._id,

@@ -18,12 +18,12 @@ export const updateCategoryValidator: RequestHandler[] = [
 ]
 
 export const getCategoryValidator: RequestHandler[] = [
-  check('id').isMongoId().withMessage('Invalid Mongo Id'),
+  check('id').isMongoId().withMessage((val, {req}) => req.__('check_id')),
   validatorMiddleware
 ]
 
 export const deleteCategoryValidator: RequestHandler[] = [
-  check('id').isMongoId().withMessage('Invalid Mongo Id')
+  check('id').isMongoId().withMessage((val, {req}) => req.__('check_id'))
     .custom(async (val) => {
         await subCategoryModel.deleteMany({ categoryId: val });
         return true;

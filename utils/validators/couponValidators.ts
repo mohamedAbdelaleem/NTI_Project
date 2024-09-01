@@ -45,11 +45,11 @@ export const updateCouponValidator: RequestHandler[] = [
 ]
 
 export const getCouponValidator: RequestHandler[] = [
-  check('id').isMongoId().withMessage('Invalid Mongo Id'),
+  check('id').isMongoId().withMessage((val, {req}) => req.__('check_id')),
   validatorMiddleware
 ]
 
 export const deleteCouponValidator: RequestHandler[] = [
-  check('id').isMongoId().withMessage('Invalid Mongo Id'),
+  check('id').isMongoId().withMessage((val, {req}) => req.__('check_id')),
   validatorMiddleware
 ]

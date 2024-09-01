@@ -9,11 +9,11 @@ export const createReviewValidator: RequestHandler[] = [
     check('rating').notEmpty().withMessage('rating Required'),
     check('user')
     .notEmpty().withMessage('user Required')
-    .isMongoId().withMessage('invalid Mongo id'),
+    .isMongoId().withMessage((val, {req}) => req.__('check_id')),
 
     check('product')
     .notEmpty().withMessage('product Required')
-    .isMongoId().withMessage('Invalid Mongo Id')
+    .isMongoId().withMessage((val, {req}) => req.__('check_id'))
     .custom( async (val, {req}) => {
         const review = await reviewModel.findOne({user: req.user._id, product: val});
         if(review){
@@ -27,7 +27,7 @@ export const createReviewValidator: RequestHandler[] = [
 
 
 export const updateReviewValidator: RequestHandler[] = [
-    check('id').isMongoId().withMessage('Invalid Mongo Id')
+    check('id').isMongoId().withMessage((val, {req}) => req.__('check_id'))
       .custom(async (val, { req }) => {
         const review = await reviewModel.findById(val);
         if (!review) { throw new Error('review not found') }
@@ -40,12 +40,12 @@ export const updateReviewValidator: RequestHandler[] = [
   ]
   
   export const getReviewValidator: RequestHandler[] = [
-    check('id').isMongoId().withMessage('Invalid Mongo Id'),
+    check('id').isMongoId().withMessage((val, {req}) => req.__('check_id')),
     validatorMiddleware
   ]
   
   export const deleteReviewValidator: RequestHandler[] = [
-    check('id').isMongoId().withMessage('Invalid Mongo Id')
+    check('id').isMongoId().withMessage((val, {req}) => req.__('check_id'))
       .custom(async (val, { req }) => {
         if (req.user.role === 'user') {
           const review = await reviewModel.findById(val);

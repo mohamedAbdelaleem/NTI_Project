@@ -30,7 +30,7 @@ export const createUserValidator: RequestHandler[] = [
 ]
 
 export const updateUserValidator: RequestHandler[] = [
-  check('id').isMongoId().withMessage('Invalid Mongo Id'),
+  check('id').isMongoId().withMessage((val, {req}) => req.__('check_id')),
   validatorMiddleware,
   check('name').optional()
     .isLength({ min: 2, max: 50 }).withMessage('Name length must be between 2 and 50'),
@@ -40,12 +40,12 @@ export const updateUserValidator: RequestHandler[] = [
 ]
 
 export const getUserValidator: RequestHandler[] = [
-  check('id').isMongoId().withMessage('Invalid Mongo Id'),
+  check('id').isMongoId().withMessage((val, {req}) => req.__('check_id')),
   validatorMiddleware
 ]
 
 export const deleteUserValidator: RequestHandler[] = [
-  check('id').isMongoId().withMessage('Invalid Mongo Id'),
+  check('id').isMongoId().withMessage((val, {req}) => req.__('check_id')),
   validatorMiddleware
 ]
 

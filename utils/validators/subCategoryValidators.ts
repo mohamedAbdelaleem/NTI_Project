@@ -8,7 +8,7 @@ export const createSubcategoryValidator: RequestHandler[] = [
     .isLength({ min: 2, max: 50 }).withMessage('Name length must be between 2 and 50'),
   check('categoryId')
     .notEmpty().withMessage('Category is Required')
-    .isMongoId().withMessage('Invalid Mongo Id'),
+    .isMongoId().withMessage((val, {req}) => req.__('check_id')),
   validatorMiddleware
 ]
 
@@ -16,16 +16,16 @@ export const updateSubcategoryValidator: RequestHandler[] = [
   check('name').optional()
     .isLength({ min: 2, max: 50 }).withMessage('Name length must be between 2 and 50'),
   check('categoryId').optional()
-    .isMongoId().withMessage('Invalid Mongo Id'),
+    .isMongoId().withMessage((val, {req}) => req.__('check_id')),
   validatorMiddleware
 ]
 
 export const getSubcategoryValidator: RequestHandler[] = [
-  check('id').isMongoId().withMessage('Invalid Mongo Id'),
+  check('id').isMongoId().withMessage((val, {req}) => req.__('check_id')),
   validatorMiddleware
 ]
 
 export const deleteSubcategoryValidator: RequestHandler[] = [
-  check('id').isMongoId().withMessage('Invalid Mongo Id'),
+  check('id').isMongoId().withMessage((val, {req}) => req.__('check_id')),
   validatorMiddleware
 ]
