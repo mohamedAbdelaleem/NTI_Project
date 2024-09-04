@@ -1,0 +1,99 @@
+<section class="my-5">
+    <div class="container-fluid h-custom">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+            class="img-fluid" alt="Sample image">
+        </div>
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <form [formGroup]="signupForm" (ngSubmit)="signup(signupForm)">
+
+            <!-- Name input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form3Example3">Name</label>
+              <input type="email" formControlName="name" class="form-control form-control-lg"
+                placeholder="Enter a valid email address" />
+
+                @if(signupForm.get('name')?.errors!==null&&signupForm.get('name')?.touched){
+                    <div class="p-0 mt-3">
+                      @if(signupForm.get('name')?.errors?.['required']){<p class="text-danger">Name Required</p>}
+                      @if(signupForm.get('name')?.errors?.['minlength'])
+                      {<p class="text-danger">Name is short</p>}
+                      @if(signupForm.get('name')?.errors?.['maxlength'])
+                      {<p class="text-danger">Max name length is 50.</p>}
+                    </div>
+                    }
+            </div>
+
+            <!-- Email input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form3Example3">Email address</label>
+              <input type="email" formControlName="email" id="form3Example3" class="form-control form-control-lg"
+                placeholder="Enter a valid email address" />
+
+                @if(signupForm.get('email')?.errors!==null&&signupForm.get('email')?.touched){
+                    <div class="p-0 mt-3">
+                      @if(signupForm.get('email')?.errors?.['required']){<p class="text-danger">Email Required</p>}
+                      @if(signupForm.get('email')?.errors?.['email']){<p class="text-danger">invalid Email</p>}
+                    </div>
+                    }
+                
+                    @if(emailErrors){
+                        <div class="text-danger">
+                            <p>{{emailErrors}}</p>
+                        </div>
+                    }
+            </div>
+  
+            <!-- Password input -->
+            <div data-mdb-input-init class="form-outline mb-3">
+                <label class="form-label" for="form3Example4">Password</label>
+              <input type="password" formControlName="password" id="form3Example4" class="form-control form-control-lg"
+                placeholder="Enter password" />
+
+                @if(signupForm.get("password")?.errors != null && signupForm.get("password")?.touched){
+                    <div class="text-danger">
+                        @if(signupForm.get("password")?.errors?.["required"]){<p>Password is Required</p>}
+                        @if(signupForm.get('password')?.errors?.['minlength'])
+                        {<p class="text-danger">Password is short</p>}
+                        @if(signupForm.get('password')?.errors?.['maxlength'])
+                        {<p class="text-danger">Max password length is 20.</p>}
+                    </div>
+                    
+                }
+
+                @if(passwordErrors){
+                    <div class="text-danger">
+                        <p>{{passwordErrors}}</p>
+                    </div>
+                }
+            </div>
+
+            <!-- Confirm Password input -->
+            <div data-mdb-input-init class="form-outline mb-3">
+                <label class="form-label" for="form3Example4">Confirm Password</label>
+              <input type="password" formControlName="confirmPassword" class="form-control form-control-lg"
+                placeholder="Enter password" />
+
+                @if(signupForm.get("confirmPassword")?.errors != null && signupForm.get("confirmPassword")?.touched){
+                    <div class="text-danger">
+                        @if(signupForm.get("confirmPassword")?.errors?.["required"]){<p>Confirmed Password is Required</p>}
+                        @if(signupForm.get('confirmPassword')?.errors?.['minlength'])
+                        {<p class="text-danger">Confirmed Password is short</p>}
+                        @if(signupForm.get('confirmPassword')?.errors?.['maxlength'])
+                        {<p class="text-danger">Max Confirmed password length is 20.</p>}
+                    </div>
+                    
+                }
+            </div>
+  
+            <div class="text-center text-lg-start mt-4 pt-2">
+              <button  type="submit" [disabled]="signupForm.invalid" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+                style="padding-left: 2.5rem; padding-right: 2.5rem;">Register</button>
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
