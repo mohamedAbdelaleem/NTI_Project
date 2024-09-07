@@ -12,7 +12,7 @@ import { AuthService } from '../services/auth.service';
 export class HeaderComponent {
 
   isAuthenticated: boolean = false; 
-  constructor(private _AuthService: AuthService, private _Router: Router){
+  constructor(private _AuthService: AuthService){
 
     _AuthService.currentUser.subscribe(
       () => {
@@ -25,7 +25,6 @@ export class HeaderComponent {
 
   logout(){
     this._AuthService.logout();
-    this._Router.navigate(['/home']);
   }
 
 }

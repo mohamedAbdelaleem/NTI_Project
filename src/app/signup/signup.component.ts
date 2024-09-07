@@ -28,7 +28,7 @@ export class SignupComponent {
   signup(formData: FormGroup) {
     this._AuthService.singUp(formData.value).subscribe((res) => {
       if (res.token) {
-        localStorage.setItem('user', res.token)
+        localStorage.setItem('token', res.token)
         this._AuthService.saveCurrentUser()
       }
       this._Router.navigate(['/home'])

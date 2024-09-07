@@ -1,0 +1,68 @@
+<div class="container my-2 w-75">
+  <img src="images/e-commerce_backgroung.jpg" class="img-fluid h-50" alt="">
+</div>
+<div class="row justify-content-center m-auto container mt-4">
+  
+    
+    @for(product of products; track product._id){
+
+        <div class="card m-2 col-3" style="width: 18rem;">
+            <img [src]="product.cover_url"
+            class="card-img-top w-100 h-50" alt="Laptop" />
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <p class="small"><a href="#!" class="text-muted">{{product.subcategory.name}}</a></p>
+                <!-- <p class="small text-danger"><s>$1099</s></p> -->
+              </div>
+        
+              <div class="d-flex justify-content-between mb-3">
+                <h5 class="mb-0">{{product.name}}</h5>
+                <h5 class="text-dark mb-0">{{product.price | currency}}</h5>
+              </div>
+        
+              <div class="d-flex justify-content-between mb-2">
+                <p class="text-muted mb-0">Available: <span class="fw-bold">{{product.quantity}}</span></p>
+                <div class="ms-auto text-warning">
+                    <!-- <p class="card-text">{{product.ratingAverage}} &star; - count {{product.ratingCount}}</p> -->
+                  <span class="card-text">{{product.ratingAverage}} </span>
+                    <i class="fa fa-star"></i>
+                  
+                </div>
+              </div>
+            
+              <div>
+                <a [routerLink]="['/products',product._id]" class="btn btn-outline-primary">See More</a>
+                <button class="btn btn-outline-success mx-2">Add to Cart</button>
+              </div>
+      
+            </div>
+          </div>
+      
+    }
+
+      <div>
+        <ul class="pagination w-25 m-auto justify-content-center">
+          @if(pagination.prev){<li  class="page-item"><button
+              class="page-link" (click)="changePage(pagination.prev)">Previous</button></li>}
+          @if(pagination.currentPage!==1)
+          {<li  class="page-item"><button class="page-link" (click)="changePage(1)">1</button></li>}
+          <li class="page-item"><button class="page-link" (click)="changePage(pagination.currentPage!)">{{pagination.currentPage}}</button></li>
+          
+          
+          
+          @if(pagination.currentPage!==pagination.totalPages)
+          {
+            <li class="page-item"><button class="page-link">...</button></li>
+
+            <li  class="page-item"><button
+              class="page-link" (click)="changePage(pagination.totalPages!)">{{pagination.totalPages}}</button></li>}
+          @if(pagination.next){<li  class="page-item"><button
+              class="page-link" (click)="changePage(pagination.next)">Next</button></li>}
+        </ul>
+      </div>
+      
+
+</div>
+
+
+

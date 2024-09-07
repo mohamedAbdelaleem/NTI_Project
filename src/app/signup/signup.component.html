@@ -12,7 +12,7 @@
             <div data-mdb-input-init class="form-outline mb-4">
                 <label class="form-label" for="form3Example3">Name</label>
               <input type="email" formControlName="name" class="form-control form-control-lg"
-                placeholder="Enter a valid email address" />
+                 />
 
                 @if(signupForm.get('name')?.errors!==null&&signupForm.get('name')?.touched){
                     <div class="p-0 mt-3">
@@ -29,7 +29,7 @@
             <div data-mdb-input-init class="form-outline mb-4">
                 <label class="form-label" for="form3Example3">Email address</label>
               <input type="email" formControlName="email" id="form3Example3" class="form-control form-control-lg"
-                placeholder="Enter a valid email address" />
+                 />
 
                 @if(signupForm.get('email')?.errors!==null&&signupForm.get('email')?.touched){
                     <div class="p-0 mt-3">
@@ -49,7 +49,7 @@
             <div data-mdb-input-init class="form-outline mb-3">
                 <label class="form-label" for="form3Example4">Password</label>
               <input type="password" formControlName="password" id="form3Example4" class="form-control form-control-lg"
-                placeholder="Enter password" />
+                 />
 
                 @if(signupForm.get("password")?.errors != null && signupForm.get("password")?.touched){
                     <div class="text-danger">
@@ -73,7 +73,7 @@
             <div data-mdb-input-init class="form-outline mb-3">
                 <label class="form-label" for="form3Example4">Confirm Password</label>
               <input type="password" formControlName="confirmPassword" class="form-control form-control-lg"
-                placeholder="Enter password" />
+                 />
 
                 @if(signupForm.get("confirmPassword")?.errors != null && signupForm.get("confirmPassword")?.touched){
                     <div class="text-danger">
