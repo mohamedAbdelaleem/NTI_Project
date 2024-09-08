@@ -1,0 +1,33 @@
+<div class="container w-75 justify-content-center my-5">
+
+
+    <div name="reviews">
+        <h4>Update Review</h4>
+          <form [formGroup]="reviewForm" (ngSubmit)="updateProduct()">
+            <div class="form-floating">
+              <textarea class="form-control" formControlName="content" placeholder="Leave a comment here"
+                id="floatingTextarea" [ngModel]="review?.content">Blablab</textarea>
+              <label for="floatingTextarea">Review</label>
+            </div>
+            <div class="mt-3 text-danger">
+            </div>
+            <div class="rating">
+              <input type="radio" formControlName="rating" id="star5" name="rating" value="5" />
+              <label class="star" for="star5" title="Awesome" aria-hidden="true"></label>
+              <input type="radio" formControlName="rating" id="star4" name="rating" value="4" />
+              <label class="star" for="star4" title="Great" aria-hidden="true"></label>
+              <input type="radio" formControlName="rating" id="star3" name="rating" value="3" />
+              <label class="star" for="star3" title="Very good" aria-hidden="true"></label>
+              <input type="radio" formControlName="rating" id="star2" name="rating" value="2" />
+              <label class="star" for="star2" title="Good" aria-hidden="true"></label>
+              <input type="radio" formControlName="rating" id="star1" name="rating" value="1" />
+              <label class="star" for="star1" title="Bad" aria-hidden="true"></label>
+              <br>
+              <button type="submit" [disabled]="reviewForm.invalid" class="btn btn-success shadow mt-2 mx-3">Update Review</button>
+              <a class="btn btn-outline-danger mt-2 mx-3" [routerLink]="['/reviews']">Cancel</a>
+            </div>
+          </form>
+      
+      </div>
+      <div style="clear: both;"></div>
+</div>

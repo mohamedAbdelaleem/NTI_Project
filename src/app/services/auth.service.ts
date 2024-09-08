@@ -4,14 +4,20 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { Login, Signup } from '../interfaces/auth';
 import { Router } from '@angular/router';
+import { GlobalService } from './global.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  hostName: string;
+  routePath: string;
   currentUser = new BehaviorSubject(null);
-  constructor(private _HttpClient: HttpClient, private _Router: Router) {}
+  constructor(private _HttpClient: HttpClient, private _Router: Router, private _Global: GlobalService) {
+    this.hostName = _Global.hostName;
+    this.routePath = _Global.authRoute;
+  }
 
   saveCurrentUser(){
     const token: any = localStorage.getItem('token');
@@ -57,5 +63,15 @@ export class AuthService {
     localStorage.removeItem('token');
     this.currentUser.next(null);
     this._Router.navigate(['/login']);
+  }
+
+  sendMail(formData: any): Observable<any>{
+    return this._HttpClient.post(`${this.hostName}${this.routePath}/forgetPassword`, formData)
+  }
+  verifyCode(formData: any): Observable<any>{
+    return this._HttpClient.post(`${this.hostName}${this.routePath}/verifyCode`, formData, { headers: { authorization: `Bearer ${localStorage.getItem('verify')}` } })
+  }
+  resetPassword(formData: any): Observable<any>{
+    return this._HttpClient.put(`${this.hostName}${this.routePath}/resetCode`, formData, { headers: { authorization: `Bearer ${localStorage.getItem('verify')}` } })
   }
 }
