@@ -25,8 +25,10 @@ export class ReviewsService {
     )
   }
 
-  getUserReviews(userId: string): Observable<any> {
-    return this._HttpClient.get(`${this.hostName}${this.routePath}?user=${userId}`, {headers : {authorization: `Bearer ${localStorage.getItem("token")}`}})
+  getUserReviews(userId: string, limit: number = 12, page: number = 1, sort: string = '-createdAt',): Observable<any> {
+    return this._HttpClient.get(`${this.hostName}${this.routePath}?user=${userId}&limit=${limit}&page=${page}&sort=${sort}`,
+       {headers : {authorization: `Bearer ${localStorage.getItem("token")}`}}
+      )
   }
 
   deleteReview(reviewId: string): Observable<any> {

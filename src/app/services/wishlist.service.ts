@@ -17,4 +17,12 @@ export class WishlistService {
   addProductToWishlist(product: string): Observable<any> {
     return this._HttpClient.post(`${this.hostName}${this.routePath}`, { product }, { headers: { authorization: `Bearer ${localStorage.getItem('token')}` } })
   }
+
+  getUserWishList(): Observable<any> {
+    return this._HttpClient.get(`${this.hostName}${this.routePath}`, { headers: { authorization: `Bearer ${localStorage.getItem('token')}` } })
+  }
+
+  removeFromWishlist(productId: string): Observable<any>{
+    return this._HttpClient.delete(`${this.hostName}${this.routePath}/${productId}`, { headers: { authorization: `Bearer ${localStorage.getItem('token')}` } })
+  }
 }

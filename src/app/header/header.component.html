@@ -24,12 +24,11 @@
           @else{<li class="nav-item">
             <a class="nav-link" (click)="logout()">Logout</a>
           </li>
-        }
-          
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Settings</a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">My Profile</a>
+              <a class="dropdown-item" [routerLink]="['/profile']">My Profile</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" [routerLink]="['/reviews']">My Reviews</a>
               <div class="dropdown-divider"></div>
@@ -37,11 +36,21 @@
               
             </div>
           </li>
+        }
+          
         </ul>
         <form class="d-flex">
           <input class="form-control me-sm-2" type="search" placeholder="Search">
           <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
+        @if(isAuthenticated){
+
+          <div class="mx-2">
+            <a [routerLink]="['/wishlist']" class="mx-2"><i class="fa-solid fa-heart fa-2x text-warning"></i></a>
+            <a [routerLink]="['/cart']" class="mx-2"><i class="fa-solid fa-cart-shopping fa-2x text-white"></i></a>
+          </div>
+        }
+        
       </div>
     </div>
   </nav>

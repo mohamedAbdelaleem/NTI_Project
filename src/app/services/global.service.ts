@@ -10,5 +10,6 @@ export class GlobalService {
   cartsRoute: string =  "api/v1/carts";
   wishlistRoute: string =  "api/v1/wishlist";
   reviewsRoute: string =  "api/v1/reviews";
+  usersRoute: string =  "api/v1/users";
   constructor() { }
 }

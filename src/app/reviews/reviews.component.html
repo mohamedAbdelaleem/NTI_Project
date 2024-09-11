@@ -1,43 +1,65 @@
-<div class="container">
-    <h2 class="text-center my-5">My Reviews</h2>
-    <hr class="my-3">
-    <table class="w-100">
-      <thead>
-        <tr class="border-bottom">
-          <th>product</th>
-          <th>Review</th>
-          <th>Rating</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(review of reviews; track review._id){
-        <tr class="m-5 border-bottom">
-          <td><img class="mx-3" width="50px" [src]="imagesBaseUrl+review?.product?.cover"
-              [alt]="review?.product?.name">{{review?.product?.name}}</td>
-          <td>{{review?.content}}</td>
-          <td>{{review?.rating}}</td>
-          <td>
-            <a class="btn btn-primary btn-sm rounded-3 mx-3" [routerLink]="['/reviews', review._id]">Update</a>
-            <button  class="btn btn-danger btn-sm rounded-3" (click)="deleteReview(review._id)">Delete</button>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+
+  <div class="cart-wrap"></div>
+		<div class="container">
+	        <div class="row">
+			    <div class="col-md-12">
+			        <div class="main-heading mb-10">My wishlist</div>
+			        <div class="table-wishlist">
+				        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+				        	<thead>
+					        	<tr>
+					        		<th width="35%">Product</th>
+					        		<th width="10%">Review Content</th>
+					        		<th width="10%">Rating</th>
+					        		<th width="10%"></th>
+					        		<th width="5%"></th>
+					        	</tr>
+					        </thead>
+					        <tbody>
+
+                    @for(review of reviews; track review._id){
+					        	<tr>
+					        		<td width="35%">
+					        			<div class="display-flex align-center">
+		                                    <div class="img-product">
+		                                        <img [src]="imagesBaseUrl+review?.product?.cover"
+                                            [alt]="review?.product?.name" class="mCS_img_loaded">
+		                                    </div>
+		                                    <div class="name-product">
+		                                        {{review?.product?.name}}
+		                                    </div>
+	                                    </div>
+	                                </td>
+					        		<td width="10%">{{review.content}}</td>
+					        		<td width="10%">{{review.rating}}</td>
+					        		<td width="10%"><button class="btn btn-outline-info small-btn" [routerLink]="['/reviews', review._id]">Update</button></td>
+					        		<td width="5%" class="text-center"><span class="trash-icon" (click)="deleteReview(review._id)"><i class="far fa-trash-alt" ></i></span></td>
+					        	</tr>
+                    }
+				        	</tbody>
+				        </table>
+				    </div>
+			    </div>
+			</div>
+		</div>
   
-  <!-- <div class="container m-auto mt-5 w-25">
-    <ul class="pagination">
-      @if(pagination.prev){<li (click)="changePage(pagination.prev)" class="page-item"><button
-          class="page-link">Previous</button></li>}
+  <div class="my-4">
+    <ul class="pagination w-25 m-auto justify-content-center">
+      @if(pagination.prev){<li  class="page-item"><button
+          class="page-link" (click)="changePage(pagination.prev)">Previous</button></li>}
       @if(pagination.currentPage!==1)
-      {<li (click)="changePage(1)" class="page-item"><button class="page-link">1</button></li>}
-      <li class="page-item"><button class="page-link">{{pagination.currentPage}}</button></li>
+      {<li  class="page-item"><button class="page-link" (click)="changePage(1)">1</button></li>}
+      <li class="page-item"><button class="page-link" (click)="changePage(pagination.currentPage!)">{{pagination.currentPage}}</button></li>
+      
+      
+      
       @if(pagination.currentPage!==pagination.totalPages)
-      {<li (click)="changePage(pagination.totalPages!)" class="page-item"><button
-          class="page-link">{{pagination.totalPages}}</button></li>}
-      @if(pagination.next){<li (click)="changePage(pagination.next)" class="page-item"><button
-          class="page-link">Next</button></li>}
+      {
+        <li class="page-item"><button class="page-link">...</button></li>
+        
+        <li  class="page-item"><button
+          class="page-link" (click)="changePage(pagination.totalPages!)">{{pagination.totalPages}}</button></li>}
+      @if(pagination.next){<li  class="page-item"><button
+          class="page-link" (click)="changePage(pagination.next)">Next</button></li>}
     </ul>
-  </div> -->
+  </div>

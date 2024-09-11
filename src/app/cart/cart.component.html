@@ -1,0 +1,59 @@
+
+
+<div class="cart-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-heading mb-10">My Cart</div>
+                <div class="table-wishlist">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th width="35%">Product</th>
+                                <th width="10%">Unit Price</th>
+                                <th width="20%">Quantity</th>
+                                <th width="10%"></th>
+                                <th width="5%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (item of cart?.cartItems; track $index) {
+                                <tr>
+                                    <td width="35%">
+                                        <div class="display-flex align-center">
+                                            <div class="img-product">
+                                                <img [src]="item.product.cover_url" [alt]="item.product" class="mCS_img_loaded">
+                                            </div>
+                                            <div class="name-product">
+                                               {{item.product.name}}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td width="10%" class="price">{{item.unit_price|currency}}</td>
+                                    @if(editMode.get(item._id)){
+                                        <td width="20%">
+                                            <form (submit)="updateQuantity($event, item._id)">
+                                                <input  type="number" required placeholder="Enter quantity" name="quantity" class="my-2 form-control" [value]="item.quantity">
+                                                <button type="submit" class="btn btn-outline-success btn-sm mx-2">Save</button>
+                                                <button type="button" (click)="setViewMode(item._id)" class="btn btn-outline-danger btn-sm">Cancel</button>
+                                            </form>
+                                        </td> 
+
+                                    }
+                                    @else{
+                                        <td width="20%">{{item.quantity}}</td>
+                                    }
+                                    
+                                    <td width="10%"><button class="btn btn-outline-info small-btn" (click)="setEditMode(item._id)">Update Quantity</button></td>
+                                    <td width="5%" class="text-center"><span class="trash-icon" (click)="removeFromCart(item._id)"><i class="far fa-trash-alt" ></i></span></td>
+                                </tr>
+                            }
+                            
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

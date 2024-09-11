@@ -8,6 +8,9 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { ReviewsComponent } from './reviews/reviews.component';
 import { ReviewUpdateComponent } from './review-update/review-update.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { ProfileComponent } from './profile/profile.component';
+import { CartComponent } from './cart/cart.component';
 
 export const routes: Routes = [
     {path: "", component: HomeComponent},
@@ -19,4 +22,7 @@ export const routes: Routes = [
     {path: "reviews", canActivate: [authGuard], component: ReviewsComponent},
     { path: "reviews/:id", canActivate: [authGuard], component: ReviewUpdateComponent },
     {path: "forgetPassword", canActivate: [unAuthGuard], component: ForgetPasswordComponent},
+    {path: "wishlist", canActivate: [authGuard], component: WishlistComponent},
+    {path: "cart", canActivate: [authGuard], component: CartComponent},
+    {path: "profile", canActivate: [authGuard], component: ProfileComponent},
 ];

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductsService } from '../services/products.service';
@@ -7,6 +7,8 @@ import { CartService } from '../services/carts.service';
 import { WishlistService } from '../services/wishlist.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReviewsService } from '../services/reviews.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-product-details',
@@ -27,6 +29,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     content: new FormControl(null, [Validators.required]),
     rating: new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(5)]),
   })
+
+  private _snackBar = inject(MatSnackBar);
 
   constructor(
     private _ActivatedRoute: ActivatedRoute,
@@ -57,11 +61,15 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   addToWishlist(productId: string) {
-    this._WishlistService.addProductToWishlist(productId).subscribe((res) => { alert('Product Added to wishlist') })
+    this._WishlistService.addProductToWishlist(productId).subscribe(
+      (res) => { this.openSnackBar("Product added to wishlist!") }
+    )
   }
 
   addToCart(productId: string) {
-    this._CartService.addProductToCart(productId).subscribe((res) => {alert('Product Added to cart') })
+    this._CartService.addProductToCart(productId).subscribe(
+      (res) => {this.openSnackBar("Product added to Shopping Cart!") }
+    )
   }
 
   addReview(productId: string){
@@ -77,6 +85,14 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         }
       }
     )
+  }
+
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'Done', {
+      horizontalPosition: 'start',
+      verticalPosition: 'top',
+    });
   }
 
   ngOnDestroy(): void { this.subscription.unsubscribe(); }
