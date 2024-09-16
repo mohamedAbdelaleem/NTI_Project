@@ -1,1 +1,55 @@
-<p>orders works!</p>
+
+
+<div class="cart-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col col-lg-9">
+                <div class="main-heading mb-10">
+                    <h5>My Orders
+                    </h5>
+                </div>
+                <div class="table-wishlist">
+                    
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th >Order Items</th>
+                                <th>Total Price</th>
+                                <th>Order Status</th>
+                                <th>Ordered at</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (order of orders; track $index) {
+                                <tr>
+                                    <td >
+                                        @for(item of order.cartItems; track item._id){
+                                            <img class="mx-2" width="50px" [src]="item?.product?.cover_url"
+                                              [alt]="item?.product?.name">
+                                            
+                                            }
+                                    </td>
+                                    <td class="price">{{order.totalPrice|currency}}</td>
+                                    
+                                    @if(order.isDelivered)
+                                    {
+                                        <td>Delivered</td>
+                                    }
+                                    @else {
+                                        <td>Placed</td>
+                                    }
+                                    
+                                    <td>{{order.createdAt|date}}</td>
+                                </tr>
+                            }
+                            
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+</div>

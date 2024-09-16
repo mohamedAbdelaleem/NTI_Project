@@ -2,11 +2,67 @@
   <img src="images/e-commerce_backgroung.jpg" class="img-fluid h-50" alt="">
 </div>
 
-<div class="row justify-content-center m-auto container mt-4">
+<div class="row m-auto container mt-4">
+  
+  <aside class="col-md-3">
+		
+    <div class="card">
+      <article class="filter-group">
+        <header class="card-header">
+        </header>
+        <div class="filter-content collapse show" id="collapse_1" style="">
+          <div class="card-body">
+            <form class="pb-3" (ngSubmit)="search()">
+            <div class="input-group">
+              <input type="text" class="form-control" name="searchQuery" [(ngModel)]="searchQuery" placeholder="Search" required>
+              <div class="input-group-append">
+                <button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+            </form>
+            @if(searchQuery){
+              <button class="btn btn-sm btn-outline-info" (click)="clearSearch()">clear</button>
+            }
+            
+          </div> <!-- card-body.// -->
+        </div>
+      </article> <!-- filter-group  .// -->
+      <article class="filter-group">
+        <header class="card-header">
+          <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
+            <i class="icon-control fa fa-chevron-down"></i>
+            <h6 class="title">Categories </h6>
+          </a>
+        </header>
+        <div class="filter-content collapse show" id="collapse_2" style="">
+          <div class="card-body">
+            <ul class="list-menu">
+              @for (category of categories; track $index) {
+
+                @if(filteredCategory && category._id == filteredCategory){
+                  <li class="my-y"><button type="button" class="btn btn-link text-dark" (click)="filter(category._id)">{{category.name}} </button></li>
+                }
+                @else{
+                  <li class="my-y"><button type="button" class="btn btn-link text-muted" (click)="filter(category._id)">{{category.name}} </button></li>
+                }
+                
+              }
+              
+              </ul>
+              @if(filteredCategory){
+                <button class="btn btn-sm btn-outline-info" (click)="clearFilter()">clear</button>
+              }
+        </div> <!-- card-body.// -->
+      </div>
+      </article> <!-- filter-group .// -->
+    </div> <!-- card.// -->
     
+      </aside>
+  
+  <div class="col-md-9 row">
     @for(product of products; track product._id){
 
-        <div class="card m-2 col-3" style="width: 18rem;">
+        <div class="card my-2 col-4" > <!-- style="width: 18em;" -->
             <img [src]="product.cover_url"
             class="card-img-top w-100 h-50" alt="Laptop" />
             <div class="card-body poisition-relative">
@@ -15,9 +71,9 @@
                 <!-- <p class="small text-danger"><s>$1099</s></p> -->
               </div>
         
-              <div class="d-flex justify-content-between mb-3">
-                <h5 class="mb-0">{{product.name}}</h5>
-                <h5 class="text-dark mb-0">{{product.price | currency}}</h5>
+              <div class="">
+                <h6>{{product.name}}</h6>
+                <h6 class="text-dark">{{product.price | currency}}</h6>
               </div>
         
               <div class="d-flex justify-content-between mb-2">
@@ -34,8 +90,8 @@
               </div>
             
               <div>
-                <a [routerLink]="['/products',product._id]" class="btn btn-outline-primary">See More</a>
-                <button class="btn btn-outline-success mx-2" (click)="addToCart(product.id)">Add to Cart</button>
+                <a [routerLink]="['/products',product._id]" class="btn btn-sm btn-outline-primary">See More</a>
+                <button class="btn btn-sm btn-outline-success mx-2" (click)="addToCart(product.id)">Add to Cart</button>
               </div>
       
             </div>
@@ -63,6 +119,8 @@
             class="page-link" (click)="changePage(pagination.next)">Next</button></li>}
       </ul>
     </div>
+
+  </div>
 </div>
 
 

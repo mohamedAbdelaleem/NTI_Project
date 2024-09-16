@@ -19,7 +19,10 @@ export class CartService {
   }
 
   getUserCart(): Observable<any> {
-    return this._HttpClient.get(`${this.hostName}${this.routePath}`, { headers: { authorization: `Bearer ${localStorage.getItem('token')}` } })
+    return this._HttpClient.get(
+      `${this.hostName}${this.routePath}`,
+       { headers: { authorization: `Bearer ${localStorage.getItem('token')}` } }
+      )
   }
 
   removeCartItem(itemId: string){
@@ -31,6 +34,11 @@ export class CartService {
     return this._HttpClient.put(`${this.hostName}${this.routePath}/${itemId}`, {quantity}, { headers: { authorization: `Bearer ${localStorage.getItem('token')}` } })
   }
 
-  
+  clearCart(): Observable<any>{
+    return this._HttpClient.delete(
+      `${this.hostName}${this.routePath}`,
+       { headers: { authorization: `Bearer ${localStorage.getItem('token')}` } }
+      )
+  }
 
 }

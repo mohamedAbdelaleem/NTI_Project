@@ -11,6 +11,7 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CartComponent } from './cart/cart.component';
+import { OrdersComponent } from './orders/orders.component';
 
 export const routes: Routes = [
     {path: "", component: HomeComponent},
@@ -25,4 +26,5 @@ export const routes: Routes = [
     {path: "wishlist", canActivate: [authGuard], component: WishlistComponent},
     {path: "cart", canActivate: [authGuard], component: CartComponent},
     {path: "profile", canActivate: [authGuard], component: ProfileComponent},
+    {path: "orders", canActivate: [authGuard], component: OrdersComponent},
 ];

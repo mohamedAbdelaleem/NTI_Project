@@ -4,11 +4,13 @@ import { CartService } from '../services/carts.service';
 import { Cart } from '../interfaces/cart';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { OrdersService } from '../services/orders.service';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [RouterLink, CurrencyPipe],
+  imports: [RouterLink, CurrencyPipe, FormsModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
@@ -16,11 +18,14 @@ export class CartComponent implements OnInit, OnDestroy {
   subscription?: any;
   cart?: Cart;
   editMode: Map<string, boolean>= new Map();
+  address: string = '';
 
   _snackBar = inject(MatSnackBar);
 
   constructor(
-     private _CartService: CartService){
+     private _CartService: CartService,
+     private _OrdersService: OrdersService
+    ){
   }
 
   loadCart(){
@@ -30,6 +35,9 @@ export class CartComponent implements OnInit, OnDestroy {
         for(let cartItem of this.cart?.cartItems!){
           this.editMode.set(cartItem._id, false);
         }
+      },
+      (error) => {
+        this.cart = undefined;
       }
     )
   }
@@ -73,6 +81,28 @@ export class CartComponent implements OnInit, OnDestroy {
       }
     )
 
+  }
+
+  placeOrder(event: any){
+    event.preventDefault();
+    console.log(this.address);
+
+    this.subscription = this._OrdersService.placeOrder(this.address).subscribe(
+      (res) =>  {
+        this.loadCart();
+        this.openSnackBar("Order Placed Successfully");
+      }
+    )
+  }
+
+
+  clearCart(){
+    this.subscription = this._CartService.clearCart().subscribe(
+      (res) => {
+        this.cart = undefined;
+        this.openSnackBar("Cart cleared successfully");
+      }
+    )
   }
 
   ngOnInit(): void {
