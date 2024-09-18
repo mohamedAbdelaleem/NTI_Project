@@ -1,0 +1,80 @@
+<div class="container my-4">
+    <p-toast position="top-left"/>
+    <div class="my-4">
+        <h2 class="display-6 d-inline">Products</h2>
+        <a class="btn btn-outline-success d-inline float-end" routerLink="create">Add Product</a>
+    </div>
+    <hr>
+    <div class="my-2">
+        <input #searchInput class="form-control w-75 d-inline" (keydown.enter)="search(searchInput.value)" type="text" placeholder="Search" style="background-color: rgb(243, 241, 241);" aria-label="Search">
+        @if(searchQuery){
+            <button class="btn btn-outline-danger d-inline mx-2" (click)="clearSearch(searchInput)">&times;</button>
+        }
+    </div>
+    
+    <table class="table my-4">
+        <caption>List of Products</caption>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Sold</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            @for(product of products; track product._id){
+                <tr class="m-5 border-bottom">
+                  <td class="w-25">{{$index + 1}}</td>
+                  <td class="w-25">{{product?._id|slice:-4}}</td>
+                  <td><img class="mx-3" width="50px" [src]="product?.cover_url"
+                      [alt]="product?.name"><p>{{product?.name}} </p></td>
+                  <td>{{product?.category?.name}}</td>
+                  <td>{{product?.subcategory?.name}}</td>
+                  <td>{{product?.price|currency}}</td>
+                  <td>{{product?.quantity}}</td>
+                  <td>{{product?.sold}}</td>
+                  <td>
+                    
+                    <a [routerLink]="['/products',product._id,'update']"
+                      class="btn btn-outline-info btn-sm mx-3">Update</a>
+                </td>
+                <td width="5%" class="text-center"><span class="trash-icon" (click)="deleteProduct(product._id)"><i class="far fa-trash-alt" ></i></span></td>
+                </tr>
+                }
+            
+           
+        </tbody>
+      </table>
+
+      <div>
+        <ul class="pagination w-25 m-auto justify-content-center">
+          @if(pagination.prev){
+            <li  class="page-item"><button
+              class="page-link" (click)="changePage(pagination.prev!)">Previous</button></li>
+            }
+          @if(pagination.currentPage!==1)
+          {<li  class="page-item"><button class="page-link" (click)="changePage(1)">1</button></li>}
+          <li class="page-item"><button class="page-link" (click)="changePage(pagination.currentPage!)">{{pagination.currentPage}}</button></li>
+          
+          
+          
+          @if(pagination.currentPage!==pagination.totalPages)
+          {
+            <li class="page-item"><button class="page-link">...</button></li>
+            
+            <li  class="page-item"><button
+              class="page-link" (click)="changePage(pagination.totalPages!)">{{pagination.totalPages}}</button></li>}
+          @if(pagination.next){<li  class="page-item"><button
+              class="page-link" (click)="changePage(pagination.next!)">Next</button></li>}
+        </ul>
+      </div>
+  
+</div>
+

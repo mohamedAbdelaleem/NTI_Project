@@ -1,0 +1,102 @@
+<div class="container my-4">
+    <p-toast position="top-left"/>
+    <div class="my-4">
+        <h2 class="display-6 d-inline">Orders</h2>
+    </div>
+    <hr>
+    
+    <table class="table my-4">
+        <caption>List of Orders</caption>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>user</th>
+            <th>Products</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>tax price</th>
+            <th>total price</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            @for (item of orders; track $index) {
+            <tr>
+                <td class="w-25">{{$index + 1}}</td>
+                <td class="w-25">{{item?._id|slice:-4}}</td>
+                <td>{{item?.user?.name}}</td>
+                <td>
+                @for(item of item.cartItems; track item._id){
+                <img class="mx-3" width="50px" [src]="item?.product?.cover_url"
+                    [alt]="item?.product?.name">{{item?.product?.name}}
+                <br><br>
+                }
+                </td>
+                <td>{{item?.paymentMethod}}</td>
+                
+                <td>
+                    @if(item.isPaid){
+                        @if(!item.isDelivered){
+                            <p class="text-warning">Paid</p>
+                            <button (click)="updateDelivered(item._id)"
+                                class="btn btn-primary mx-3 btn-sm rounded-3">Mark As Delivered</button>
+                        }
+                        @else{
+                            <p class="text-success">Delivered</p>
+                        }
+
+                    }@else {
+                        <p class="text-muted">Placed</p>
+                        <button (click)="updatePaid(item._id)" class="btn btn-primary btn-sm rounded-3">Mark As Paid</button>
+                    }
+                
+                
+                </td>
+                <td>{{item?.taxPrice|currency}}</td>
+                <td>{{item?.totalPrice|currency}}</td>
+                <!-- <td>
+                    @if(item.isPaid){
+                        @if(item.isDelivered){
+                            <button (click)="updateDelivered(item._id)"
+                                class="btn btn-primary mx-3 btn-sm rounded-3">Mark As Delivered</button>
+                        }
+
+                    }@else {
+                        <button (click)="updatePaid(item._id)" class="btn btn-primary btn-sm rounded-3">Mark As Paid</button>
+                    }
+                
+                
+                </td> -->
+            </tr>
+      }
+        
+        
+        </tbody>
+      </table>
+
+      <div>
+        <ul class="pagination w-25 m-auto justify-content-center">
+          @if(pagination?.prev){
+            <li  class="page-item"><button
+              class="page-link" (click)="changePage(pagination?.prev!)">Previous</button></li>
+            }
+          @if(pagination?.currentPage!==1)
+          {<li  class="page-item"><button class="page-link" (click)="changePage(1)">1</button></li>}
+          <li class="page-item"><button class="page-link" (click)="changePage(pagination?.currentPage!)">{{pagination?.currentPage}}</button></li>
+          
+          
+          
+          @if(pagination?.currentPage!==pagination?.totalPages)
+          {
+            <li class="page-item"><button class="page-link">...</button></li>
+            
+            <li  class="page-item"><button
+              class="page-link" (click)="changePage(pagination?.totalPages!)">{{pagination?.totalPages}}</button></li>}
+          @if(pagination?.next){<li  class="page-item"><button
+              class="page-link" (click)="changePage(pagination?.next!)">Next</button></li>}
+        </ul>
+      </div>
+  
+</div>
+
